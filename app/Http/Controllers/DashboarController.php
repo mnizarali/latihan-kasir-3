@@ -94,8 +94,8 @@ class DashboarController extends Controller
 
     public function createStock(Request $request) {
         $request->validate([
-            "product_name" => "required",
-            "price" => "required",
+            "namaProduk" => "required",
+            "harga" => "required",
             "stock" => "required"
         ]);
 
@@ -111,20 +111,46 @@ class DashboarController extends Controller
         }   
 
         $product = Stock::create([
-            "product_name" => $request->product_name,
-            "price" => $request->price,
+            "namaProduk" => $request->namaProduk,
+            "harga" => $request->harga,
             "stock" => $request->stock,
             "code" => $code
         ]);
 
-        stockLog::create([
-            'user_id' => Auth::user()->id,
-            'product_id' => $product->id,
-            'total_stock' => $product->stock,
-            'description' => $request->description
+        return back()->with("success", "Berhasil menambah Product baru");
+    }
+
+    public function updateStock(Request $request, $id)
+    {
+        $request->validate([
+            "stock" => "required"
         ]);
 
-        return back()->with("success", "Berhasil menambah Product baru");
+        if ($request->stock < 1) {
+            return back()->with("err", "Gagal, isi input stock dengan benar!");
+        }
+        $stock = Stock::find($id);
+        $stock->update([
+            "stock" => $stock->stock + $request->stock
+        ]);
+
+
+        return back()->with("success", "Berhasil menambah Stock baru");
+    }
+
+    public function editStock(Request $request, $id)
+    {
+        $request->validate([
+            "namaProduk" => "required",
+            "harga" => "required",
+        ]);
+
+        $stock = Stock::find($id);
+        $stock->update([
+            "namaProduk" => $request->namaProduk,
+            "harga" => $request->harga,
+        ]);
+        return back()->with("success", "Berhasil merubah Produck");
     }
 
 }

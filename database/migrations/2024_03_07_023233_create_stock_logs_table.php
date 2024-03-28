@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_logs', function (Blueprint $table) {
-            $table->id('user_id');
+            $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('produk_id');
             $table->string('total_stock');
             $table->text("description")->nullable();

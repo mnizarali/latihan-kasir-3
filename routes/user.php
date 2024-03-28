@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
-Route::get  ("/",  [UserController::class, "index"]);
-Route::get  ("/signin",  [UserController::class, "login"]);
+Route::get  ("/",  [UserController::class, "login"]);
 Route::get  ("/signup",  [UserController::class, "register"])->name('auth.register');
 Route::get  ("/logout",  [UserController::class, "logout"])->name('auth.logout');
 

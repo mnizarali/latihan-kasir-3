@@ -65,8 +65,8 @@
                             </tr>
                             @forelse ($stockList as $stock)
                                 <tr>
-                                    <td>{{ $stock->product_name }}</td>
-                                    <td>Rp{{ number_format($stock->price, 2, ',', '.') }}</td>
+                                    <td>{{ $stock->namaProduk }}</td>
+                                    <td>Rp{{ number_format($stock->harga, 2, ',', '.') }}</td>
                                     <td>{{ $stock->stock }}</td>
                                     <td>{{ $stock->code }}</td>
                                     <td>
@@ -88,7 +88,7 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('stock.update.stock', $stock->id) }}"
+                                            <form method="POST" action="{{ route('dashboard.stock.updateStock', $stock->id) }}"
                                                 class="needs-validation" novalidate="">
                                                 @csrf
                                                 <div class="modal-body">
@@ -102,7 +102,7 @@
                                                         <div class="invalid-feedback">
                                                             please fill in unit product
                                                         </div>
-                                                        <small><b>*</b>Isi dengan teliti</small>
+                                                        <small><b></b>Isi dengan teliti</small>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="d-block">
@@ -123,6 +123,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="modal fade" tabindex="-1" role="dialog"
                                     id="editProdukModal{{ $stock->id }}">
                                     <div class="modal-dialog" role="document">
@@ -134,15 +135,15 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('stock.update', $stock->id) }}"
+                                            <form method="POST" action=" {{ route('dashboard.stock.editStock', $stock->id)}}"
                                                 class="needs-validation" novalidate="">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label for="product_name">Nama Produk<span
                                                                 class="text-danger">*</span></label>
-                                                        <input id="product_name" class="form-control" name="product_name"
-                                                            tabindex="1" value="{{ $stock->product_name }}"
+                                                        <input id="product_name" class="form-control" name="namaProduk"
+                                                            tabindex="1" value="{{ $stock->namaProduk }}"
                                                             type="text" required autofocus>
                                                         <div class="invalid-feedback">
                                                             Silahkah isi nama produk
@@ -154,8 +155,8 @@
                                                             <label for="price" class="control-label">Harga<span
                                                                     class="text-danger">*</span></label>
                                                         </div>
-                                                        <input id="price" class="form-control" name="price"
-                                                            tabindex="2" value="{{ $stock->price }}" type="number"
+                                                        <input id="price" class="form-control" name="harga"
+                                                            tabindex="2" value="{{ $stock->harga }}" type="number"
                                                             required>
                                                         <div class="invalid-feedback">
                                                             Silahkan isi nama produk

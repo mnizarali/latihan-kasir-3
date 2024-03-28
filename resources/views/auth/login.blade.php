@@ -29,7 +29,7 @@
                     @endif
 
                     <div class="login-brand">
-                        <img src="{{ asset('logo.png') }}" alt="logo" width="100" class="shadow-light rounded-circle">
+                        <img src="{{ asset('assets/dist/img/mastercard.png') }}" alt="logo" width="100" class="shadow-light rounded-circle">
                     </div>
 
                     <div class="card card-primary">

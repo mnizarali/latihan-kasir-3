@@ -16,5 +16,7 @@ Route::controller(DashboarController::class)->group(function () {
     // Stock Dashboard
     Route::GET   ('/dashboard/stock', 'viewStock')->name('dashboard.stock');
     Route::POST  ('/dashboard/stock/add','createStock')->name('dashboard.stock.add');
+    Route::POST  ('/dashboard/stock/update/{id}','updateStock')->name('dashboard.stock.updateStock');
+    Route::POST  ('/dashboard/stock/edit/{id}','editStock')->name('dashboard.stock.editStock');
 });
 
