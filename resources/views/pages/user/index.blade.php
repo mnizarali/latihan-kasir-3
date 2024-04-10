@@ -14,7 +14,7 @@
                 <div class="card-header-form">
                     <div class="input-group">
                         <div class="input-group-btn">
-                            <a href="{{ route('auth.register') }}" class="btn btn-primary" style="background-color: #572D0C"><i class="fas fa-plus"></i> New Account</a>
+                            <a href="{{ route('dashboard.get.auth') }}" class="btn btn-primary" style="background-color: #572D0C"><i class="fas fa-plus"></i> New Account</a>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         <tr>
                             <td>{{ $acc->name }}</td>
                             <td>{{ $acc->username }}</td>
-                            @if ($acc->role === 'ADMIN')
+                            @if ($acc->role === 'Admin')
                             <td>
                                 <div class="badge badge-success">Admin</div>
                             </td>

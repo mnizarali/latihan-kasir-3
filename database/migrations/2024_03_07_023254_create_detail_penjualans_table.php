@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('detail_penjualans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_penjualan');
+            $table->foreignId('id_stock');
+            $table->integer('kuantitas');
+            $table->decimal('subtotal');
             $table->timestamps();
         });
     }

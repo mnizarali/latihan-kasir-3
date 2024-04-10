@@ -17,9 +17,9 @@ class stockLog extends Model
         "status",
     ];
 
-    public function product()
+    public function stock()
     {
-        return $this->belongsTo(Stock::class);
+        return $this->belongsTo(Stock::class, 'product_id', 'id');
     }
     public function user()
     {

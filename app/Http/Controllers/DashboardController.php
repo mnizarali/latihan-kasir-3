@@ -9,24 +9,28 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class DashboarController extends Controller
+class DashboardController extends Controller
 {
+    /// Dashboard - dashboard information
     public function index(){
         $countUser = User::count();
         return view('pages.dashboard', compact("countUser"));
     }
-
-    // User
+    /// Dashboard - User
     public function user(){
         $userAccounts = User::paginate(10);
         return view('pages.user.index', compact("userAccounts"));
     }
 
+    public function register() {
+        return view("auth.register");
+    }
+    // User edit data
     public function editUser($id){
         $user = User::find($id);
         return view('pages.user.edit', compact('user'));
     }
-
+    // Create user (admin)
     public function addUser(Request $request) {
         $request->validate([
             "name" => 'required',
@@ -46,7 +50,7 @@ class DashboarController extends Controller
     
         return redirect('/dashboard/user')->with('success');
     }
-
+    // Update user
     public function updateUser(Request $request, $id) {
         $user = User::find($id);
         
@@ -68,7 +72,7 @@ class DashboarController extends Controller
 
         return redirect('/dashboard/user')->with('success', 'Data berhasil ditambahkan');
     }
-
+    // Delete user
     public function deleteUser($id)
     {
         $user = User::find($id);
@@ -79,65 +83,81 @@ class DashboarController extends Controller
             return back()->route('dashboard.dataUser')->with('error', 'User not found.');
         }
     }
-
+    /// Dashboard - Produk/stock
     public function viewProduk() {
         $stock = Stock::paginate(10);
         return view("page.stock");
     }
-
-    // stock
-
+    // Dashboard - View Stock 
     public function viewStock() {
         $stockList = Stock::paginate(10);
         return view("pages.stock.index", compact('stockList'));
     }
-
+    // Create stock (post)
     public function createStock(Request $request) {
         $request->validate([
             "namaProduk" => "required",
             "harga" => "required",
-            "stock" => "required"
+            "stok" => "required"
         ]);
 
         $now = Carbon::now();
         $yearMonthDay = $now->format('y') . $now->format('m') . $now->format('d');
         $producutCount = Stock::count();
-        $code = false;
+        $kode = false;
 
         if ($producutCount == 0) {
-            $code = "P".$yearMonthDay."1";
+            $kode = "P".$yearMonthDay."1";
         } else {
-            $code = "P" . $yearMonthDay . ($producutCount + 1);
+            $kode = "P" . $yearMonthDay . ($producutCount + 1);
         }   
 
         $product = Stock::create([
             "namaProduk" => $request->namaProduk,
             "harga" => $request->harga,
-            "stock" => $request->stock,
-            "code" => $code
+            "stok" => $request->stok,
+            "kode" => $kode
         ]);
 
         return back()->with("success", "Berhasil menambah Product baru");
     }
-
+    // Update stock - edit jumlah stock dan deskripsi
     public function updateStock(Request $request, $id)
     {
         $request->validate([
-            "stock" => "required"
+            "stok" => "required"
         ]);
 
-        if ($request->stock < 1) {
+        if ($request->stok < 1) {
             return back()->with("err", "Gagal, isi input stock dengan benar!");
         }
         $stock = Stock::find($id);
-        $stock->update([
-            "stock" => $stock->stock + $request->stock
-        ]);
 
+        if ($request->status === 'out' && $request->stok > $stock->stok) {
+            return back()->with("err", "Gagal, stock barang hanya sebanyak $stock->stok");
+        }
+
+        if ($request->status === 'in') {
+            $stock->update([
+                "stok" => $stock->stok + $request->stok
+            ]);
+        } else {
+            $stock->update([
+                "stok" => $stock->stok - $request->stok
+            ]);
+        }
+        
+        stockLog::create([
+            'user_id' =>  Auth::user()->id,
+            'product_id' => $stock->id,
+            'total_stock' => $request->stok,
+            'description' => $request->description,
+            'status' => $request->status,
+        ]);
 
         return back()->with("success", "Berhasil menambah Stock baru");
     }
-
+    // Edit stock untuk edit nama produk atau harga produk
     public function editStock(Request $request, $id)
     {
         $request->validate([
@@ -150,7 +170,12 @@ class DashboarController extends Controller
             "namaProduk" => $request->namaProduk,
             "harga" => $request->harga,
         ]);
+
         return back()->with("success", "Berhasil merubah Produck");
     }
-
+    // Dashboard - Pembelian
+    public function getPembelian() {
+        $products = Stock::all();
+        return view('pages.pembelian.index', compact('products'));
+    }
 }

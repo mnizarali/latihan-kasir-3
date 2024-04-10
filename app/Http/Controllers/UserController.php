@@ -10,40 +10,12 @@ use PDO;
 
 class UserController extends Controller
 {
-    public function index() {
-        return view("welcome");
-    }
-
     public function login() {
         return view("auth.login");
     }
     
-    public function register() {
-        return view("auth.register");
-    }
 
-    public function create(Request $request)
-    {
-        $request->validate([
-            "name" => 'required',
-            "username" => 'required',
-            "email" => 'required|email',
-            "password" => 'required',
-            "role" => 'required' 
-        ]);
     
-        $user = User::create([
-            "name" => $request->name,
-            "username" => $request->username,
-            "email" => $request->email,
-            "password" => bcrypt($request->password),
-            "role" => strtoupper($request->role) 
-        ]);
-    
-        return redirect('/signin');
-    }
-    
-
     public function auth(Request $request) {
         $request->validate([
             "email"    => 'required|email',

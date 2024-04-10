@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('stock_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('produk_id');
+            $table->foreignId('user_id');
+            $table->foreignId('product_id');
             $table->string('total_stock');
-            $table->text("description")->nullable();
-            $table->enum("status", ["in", "out"]);
+            $table->text('description')->nullable();
+            $table->enum('status',['in','out']);
             $table->timestamps();
         });
     }

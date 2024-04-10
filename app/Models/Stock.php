@@ -9,16 +9,15 @@ class Stock extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'namaProduk',
-        'harga',
-        'stock',
-        'code'
-    ];
+    protected $guarded = ['id'];
 
     public function logstock()
     {
-        return $this->hasMany(stockLog::class);
+        return $this->hasMany(stockLog::class, 'id', 'product_id');
+    }
+
+    public function detailPenjualan() {
+        return $this->hasMany(detailPenjualan::class);
     }
 
 }
