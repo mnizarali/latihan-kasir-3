@@ -2,9 +2,6 @@
 @section('title', 'Create User')
 @section('content')
     <section class="section">
-        <div class="section-header">
-            <h1>New Account</h1>
-        </div>
         <div class="section-body">
             <div class="card">
                 <form action="{{ route("user.store") }}" method="post" class="needs-validation" novalidate>

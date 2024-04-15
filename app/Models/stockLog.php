@@ -19,7 +19,7 @@ class stockLog extends Model
 
     public function stock()
     {
-        return $this->belongsTo(Stock::class, 'product_id', 'id');
+        return $this->belongsTo(Stock::class);
     }
     public function user()
     {

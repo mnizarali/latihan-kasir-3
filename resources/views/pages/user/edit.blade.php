@@ -2,9 +2,6 @@
 @section('title', 'Create User')
 @section('content')
 <section class="section">
-    <div class="section-header">
-        <h1>Edit Account</h1>
-    </div>
     <div class="section-body">
         <div class="card">
             <form action="{{ route('dashboard.user.update') }}" method="post" class="needs-validation" novalidate>

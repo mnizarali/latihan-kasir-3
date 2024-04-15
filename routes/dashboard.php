@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::middleware(['isLogin'])->group(function () {
     Route::controller(DashboardController::class)->group(function () {
@@ -16,6 +17,7 @@ Route::middleware(['isLogin'])->group(function () {
 
         // Stock Dashboard
         Route::get('/dashboard/stock', 'viewStock')->name('dashboard.stock');
+        Route::get('/dashboard/stock/history', 'getHistoryStock')->name('dashboard.stock.history');
         Route::post('/dashboard/stock/add', 'createStock')->name('dashboard.stock.add');
         Route::post('/dashboard/stock/update/{id}', 'updateStock')->name('dashboard.stock.updateStock');
         Route::post('/dashboard/stock/edit/{id}', 'editStock')->name('dashboard.stock.editStock');
@@ -23,6 +25,9 @@ Route::middleware(['isLogin'])->group(function () {
     });
 
     Route::get('/dashboard/pembelian', [DashboardController::class,'getPembelian'])->name('dashboard.pembelian');
+    Route::post('/dashboard/pembelian/confirmPayment', [DashboardController::class, 'confirmPayment'])->name('dashboard.confirmPayment');
+    Route::get('/dashboard/pembelian/invoice', [DashboardController::class, 'pdfInvoice'])->name('dashboard.pembelian.invoice');
+    Route::get('/dashboard/pembelian/direct', [DashboardController::class, 'backToPembelian'])->name('dashboard.pembelian.direct');
     
 });
 

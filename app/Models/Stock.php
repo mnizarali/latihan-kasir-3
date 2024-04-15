@@ -13,7 +13,7 @@ class Stock extends Model
 
     public function logstock()
     {
-        return $this->hasMany(stockLog::class, 'id', 'product_id');
+        return $this->hasMany(stockLog::class);
     }
 
     public function detailPenjualan() {

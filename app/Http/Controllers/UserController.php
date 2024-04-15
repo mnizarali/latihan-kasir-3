@@ -14,8 +14,6 @@ class UserController extends Controller
         return view("auth.login");
     }
     
-
-    
     public function auth(Request $request) {
         $request->validate([
             "email"    => 'required|email',
